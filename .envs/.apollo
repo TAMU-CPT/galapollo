@@ -1,0 +1,10 @@
+# **NOT** a production env file
+URL=http://localhost:8888/apollo
+NAME="aTm ------ Apollo"
+MONGODB_URI=mongodb://apollo-mongo:27017,apollo-mongo-replica:27018/apolloDb?replicaSet=rs0
+FILE_UPLOAD_FOLDER=/data/uploads
+JWT_SECRET=change_this_to_a_random_secure_string
+SESSION_SECRET=change_this_to_another_random_secure_string
+ALLOW_ROOT_USER=true
+ROOT_USER_PASSWORD=dope-password!
+ALLOW_GUEST_USER=true

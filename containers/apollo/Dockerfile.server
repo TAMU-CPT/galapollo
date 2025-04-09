@@ -1,0 +1,1 @@
+FROM ghcr.io/gmod/apollo-collaboration-server:latest

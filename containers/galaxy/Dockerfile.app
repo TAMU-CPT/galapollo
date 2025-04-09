@@ -1,0 +1,1 @@
+FROM quay.io/bgruening/galaxy:latest
