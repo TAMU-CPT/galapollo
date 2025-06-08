@@ -19,10 +19,18 @@ GALAXY_CONFIG_DATABASE_CONNECTION=postgresql://galaxy:galaxy@galaxy-postgres/gal
 GALAXY_CONFIG_INSTALL_DATABASE_TEMPLATES=True
 GALAXY_CONFIG_OVERRIDE_INSTALL_DATABASE_TEMPLATES=True
 
-# Apollo Integration
-GALAXY_WEBAPOLLO_URL=http://apollo-client
-GALAXY_WEBAPOLLO_USER=admin
+# Apollo3 Integration (default - comment out to use Apollo2)
+# GALAXY_WEBAPOLLO_URL=http://apollo3-client
+# GALAXY_WEBAPOLLO_USER=admin
+# GALAXY_WEBAPOLLO_PASSWORD=dope-password!
+# GALAXY_WEBAPOLLO_EXT_URL=http://localhost:8888
+# GALAXY_SHARED_DIR=/shared_data
+# GALAXY_APOLLO_ORG_SUFFIX=id
+
+# Apollo2 Integration
+GALAXY_WEBAPOLLO_URL=http://apollo2-app:8080
+GALAXY_WEBAPOLLO_USER=admin@local.host
 GALAXY_WEBAPOLLO_PASSWORD=dope-password!
-GALAXY_WEBAPOLLO_EXT_URL=http://localhost:8888
+GALAXY_WEBAPOLLO_EXT_URL=http://localhost:8889
 GALAXY_SHARED_DIR=/shared_data
 GALAXY_APOLLO_ORG_SUFFIX=id

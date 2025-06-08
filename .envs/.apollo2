@@ -1,0 +1,28 @@
+# **NOT** a production env file
+# Apollo2 Configuration - Based on working production setup
+
+# Authentication & Database
+APOLLO_ADMIN_USER=admin@local.host
+APOLLO_ADMIN_PASSWORD=dope-password!
+APOLLO_AUTHENTICATION_DATABASE_URL=jdbc:postgresql://apollo2-postgres:5432/apollo2
+APOLLO_USERNAME=apollo2
+APOLLO_PASSWORD=apollo2
+APOLLO_DATABASE_USERNAME=apollo2
+APOLLO_DATABASE_PASSWORD=apollo2
+
+# Critical path configurations
+CONTEXT_PATH=/
+APOLLO_PATH=/
+
+# Database configuration
+WEBAPOLLO_DATABASE_DRIVER=org.postgresql.Driver
+WEBAPOLLO_DATABASE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+
+# Application settings
+WEBAPOLLO_JBROWSE_DATA_DIR=/data
+WEBAPOLLO_USE_CDS_FOR_NEW_TRANSCRIPTS=true
+WEBAPOLLO_HISTORY_SIZE=0
+WEBAPOLLO_OVERLAPPER_CLASS=org.bbop.apollo.sequence.search.blat.BlatCommandLineNucleotideToNucleotide
+WEBAPOLLO_DEFAULT_SEARCH_TOOLS=Select a search tool
+WEBAPOLLO_SEQUENCE_SEARCH_TOOLS=blat_nucleotide
+WEBAPOLLO_NAME="aTm Apollo2"
