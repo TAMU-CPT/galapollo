@@ -2,12 +2,15 @@ volumes:
   # Galaxy volumes
   galaxy-postgres-data: null
   galaxy-conda: null
-  # Apollo volumes
-  apollo-mongo-data: null
-  apollo-mongo-config: null
-  apollo-mongo-replica-data: null
-  apollo-mongo-replica-config: null
-  apollo-uploads: null
+  # Apollo3 volumes
+  apollo3-mongo-data: null
+  apollo3-mongo-config: null
+  apollo3-mongo-replica-data: null
+  apollo3-mongo-replica-config: null
+  apollo3-uploads: null
+  # Apollo2 volumes
+  apollo2-postgres-data: null
+  apollo2-data: null
 
 services:
   # ===== GALAXY SERVICES =====
@@ -51,44 +54,44 @@ services:
       retries: 5
     restart: unless-stopped
 
-  # ===== APOLLO SERVICES =====
-  apollo-server:
+  # ===== APOLLO3 SERVICES =====
+  apollo3-server:
     build:
-      context: ./containers/apollo
+      context: ./containers/apollo3
       dockerfile: Dockerfile.server
-    container_name: apollo-server
-    env_file: ./.envs/.apollo
+    container_name: apollo3-server
+    env_file: ./.envs/.apollo3
     ports:
       - 3999:3999
     volumes:
-      - ./uploads/apollo:/data/uploads
+      - ./uploads/apollo3:/data/uploads
     depends_on:
-      apollo-mongo:
+      apollo3-mongo:
         condition: service_healthy
     restart: unless-stopped
 
-  apollo-client:
+  apollo3-client:
     build:
-      context: ./containers/apollo
+      context: ./containers/apollo3
       dockerfile: Dockerfile.client
       args:
         JBROWSE_VERSION: 2.18.0
         APOLLO_VERSION: 0.3.1
-    container_name: apollo-client
+    container_name: apollo3-client
     ports:
       - '8888:80'
     volumes:
       - ./deployment/data/:/usr/local/apache2/htdocs/data/
       - ./deployment/demoData/:/usr/local/apache2/htdocs/demoData/
     depends_on:
-      - apollo-server
+      - apollo3-server
     restart: unless-stopped
 
-  apollo-mongo:
+  apollo3-mongo:
     build:
-      context: ./containers/apollo
+      context: ./containers/apollo3
       dockerfile: Dockerfile.mongodb
-    container_name: apollo-mongo
+    container_name: apollo3-mongo
     command:
       - '--replSet'
       - 'rs0'
@@ -103,17 +106,17 @@ services:
       test: ["CMD", "/scripts/mongo_healthcheck.sh"]
       timeout: 10s
     volumes:
-      - apollo-mongo-data:/data/db
-      - apollo-mongo-config:/data/configdb
+      - apollo3-mongo-data:/data/db
+      - apollo3-mongo-config:/data/configdb
     ports:
       - '27017:27017'
     restart: unless-stopped
 
-  apollo-mongo-replica:
+  apollo3-mongo-replica:
     build:
-      context: ./containers/apollo
+      context: ./containers/apollo3
       dockerfile: Dockerfile.mongodb
-    container_name: apollo-mongo-replica
+    container_name: apollo3-mongo-replica
     command:
       - '--replSet'
       - 'rs0'
@@ -123,6 +126,40 @@ services:
     ports:
       - '27018:27018'
     volumes:
-      - apollo-mongo-replica-data:/data/db
-      - apollo-mongo-replica-config:/data/configdb
+      - apollo3-mongo-replica-data:/data/db
+      - apollo3-mongo-replica-config:/data/configdb
+    restart: unless-stopped
+
+  # ===== APOLLO2 SERVICES =====
+  apollo2-app:
+    build:
+      context: ./containers/apollo2
+      dockerfile: Dockerfile.apollo2
+    container_name: apollo2-app
+    env_file: ./.envs/.apollo2
+    ports:
+      - "8889:8080"  # Different port to avoid conflict with Apollo3
+    volumes:
+      - apollo2-data:/data
+      - ./shared_data:/shared_data
+    depends_on:
+      apollo2-postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  apollo2-postgres:
+    build:
+      context: ./containers/apollo2
+      dockerfile: Dockerfile.postgres
+    container_name: apollo2-postgres
+    env_file: ./.envs/.apollo2-postgres
+    ports:
+      - "5433:5432"  # Different port to avoid conflict with Galaxy postgres
+    volumes:
+      - apollo2-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U apollo2"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped

@@ -1,0 +1,5 @@
+# Apollo2 PostgreSQL Database
+FROM postgres:13
+
+# Apollo2 specific PostgreSQL configuration
+ENV POSTGRES_INITDB_ARGS="--encoding=UTF-8"

@@ -1,0 +1,8 @@
+FROM gmod/apollo:release-2.8.1
+
+ENV CONTEXT_PATH="/"
+ENV APOLLO_PATH="/"
+ENV WEBAPOLLO_DEBUG="false"
+ENV CATALINA_OPTS="-Xmx2g -Dspring.profiles.active=production"
+
+EXPOSE 8080

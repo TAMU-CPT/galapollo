@@ -1,0 +1,4 @@
+# **NOT** a production env file
+POSTGRES_USER=apollo2
+POSTGRES_PASSWORD=apollo2
+POSTGRES_DB=apollo2
